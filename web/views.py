@@ -15,19 +15,14 @@ def login(request):
     	if user is not None:
     		login(request, user)
     		# Redirect to 
-    else:
-    	# Get request
 	context = {}
 	return render(request, 'web/login.html', context)
 
 def register(request):
-	if (request.methosd== 'POST'):
+	if (request.method== 'POST'):
 
 		# Validate the posted fields and register the user.
 		return HttpResponseRedirect()
-
-	else:
-		# Get request
 
 	return render(request, 'web/register.html', None)
 
