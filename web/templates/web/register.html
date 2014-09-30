@@ -1,0 +1,26 @@
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'web/style.css' %}" />
+
+<form action="{% url 'web:register' %}" method="post">
+{% csrf_token %}
+<table>
+<tr><td>Email Address :</td><td><input type="text" id="email" name="email" /></td></tr>
+<tr><td>Password :</td><td><input type="password" id="password" name="password" /></td></tr>
+<tr><td>Confirm Password :</td><td><input type="password" id="confirm" name="confirm" /></td></tr>
+<tr><td>First Name :</td><td><input type="text" id="firstname" name="firstname" /></td></tr>
+<tr><td>Last Name :</td><td><input type="text" id="lastname" name="lastname" /></td></tr>
+<tr><td>Full Name :</td><td><input type="text" id="fullname" name="fullname" /></td></tr>
+<tr><td>Nick Name :</td><td><input type="text" id="nickname" name="nickname" /></td></tr>
+<tr><td>Birthday :</td><td><input type="text" id="birthday" name="birthday" /></td></tr>
+<tr><td>Address Line1 :</td><td><input type="text" id="address1" name="address1" /></td></tr>
+<tr><td>Address Line2 :</td><td><input type="text" id="address2" name="address2" /></td></tr>
+<tr><td>City :</td><td><input type="text" id="city" name="city" /></td></tr>
+<tr><td>Country :</td><td><input type="text" id="country" name="country" /></td></tr>
+<tr><td>Company :</td><td><input type="text" id="company" name="copany" /></td></tr>
+<tr><td>Position :</td><td><input type="text" id="position" name="position" /></td></tr>
+<tr><td>Mobile Phone :</td><td><input type="text" id="mobile" name="mobile" /></td></tr>
+<tr><td>Home Phone :</td><td><input type="text" id="home" name="home" /></td></tr>
+<tr><td>Office Phone :</td><td><input type="text" id="office" name="office" /></td></tr>
+<tr><td colspan="2"><input type="button" value="Save" /></td></tr>
+</table>
+</form>
