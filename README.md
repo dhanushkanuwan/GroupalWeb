@@ -54,6 +54,8 @@ CloudFS user signup REST API provide end points for user creation and authentica
 
     Check urls localhost/api/user/, localhost/api/authenticate/
 
+
+# API
 The API contains two end points
 ####User
 End point for creating a user.
