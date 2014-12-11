@@ -3,29 +3,29 @@ CloudFS user signup REST API provide end points for user creation and authentica
 
 # Installation
 1. virtualenv / virtualenvwrapper  
-    Install [virtualenv], [virtualenvwrapper] and configure a virtual enviorenment for the application.
+    Install [virtualenv], [virtualenvwrapper] and configure a virtual enviorenment for the application.  
     ```
     $ mkvirtualenv projectname
     ```
 2. Get the source  
-    Clone the repository to your work space.
+    Clone the repository to your work space.  
     ```
     $ git clone [git-repo-url] projectname
     ```
 3. Install the required plugins  
-    Source folder contains a folder named 'required' with a file prod.txt which contains all the dependencies.
+    Source folder contains a folder named 'required' with a file prod.txt which contains all the dependencies.  
     ```
     $ workon projectname
     $ cd projectname/requirements
     $ pip install -r prod.txt
     ```
-4. Create a simlink for settings file.
+4. Create a simlink for settings file.  
     ```
     cd signup/settings
     ln -s prod.py local.py
     ```
 5. Edit configuration  
-    Edit the below configurations in settings/common.py with your account data.
+    Edit the below configurations in settings/common.py with your account data.  
     ```
     CLOUD_FS_SETTINGS = {
         'API_SERVER': 'xxxxx.cloudfs.io',
@@ -36,7 +36,7 @@ CloudFS user signup REST API provide end points for user creation and authentica
     }
     ```
 6. Run the project  
-    Go to the project root folder in a command shell and run the below command
+    Go to the project root folder in a command shell and run the below command  
     ```
     python manage.py runserver
     ```
