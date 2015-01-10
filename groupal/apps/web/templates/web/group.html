@@ -1,0 +1,7 @@
+<form action="/web/group/" method="post">
+    {% csrf_token %}
+    <div>
+        {{ form.as_p }}
+    </div>
+    <input type="submit" value="Save" />
+</form>

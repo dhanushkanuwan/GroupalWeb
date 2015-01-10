@@ -1,0 +1,23 @@
+
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block title %}Groupal{% endblock %}</title>
+    <link href="{% static "web/styles/style.css" %}" rel="stylesheet" media="screen">
+</head>
+
+<body>
+    <div id="menu">
+        {% block menu %}
+        <ul>
+            <li><a href="{% url 'web:groups' %}">Groups</a></li>
+        </ul>
+        {% endblock %}
+    </div>
+
+    <div id="content">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,33 @@
+{% extends "web/base.html" %}
+
+{% block content %}
+
+    <a href="{% url 'web:group_create' %}">ADD GROUP</a>
+
+    {% for item in items %}
+        <div>
+        {{ item.title }}
+        {% if item.thumbnail %} <p><img border="0" alt="Thumbnail" src="{{ item.thumbnail.url }}" /></p> {% endif %}
+        <a href="{% url 'web:group_delete' item.pk %} ">Delete</a>
+        </div>
+    {% endfor %}
+
+    {% if is_paginated %}
+        <div class="pagination">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ page_obj.number }} of {{ paginator.num_pages }}.
+                </span>
+
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">next</a>
+                {% endif %}
+            </span>
+        </div>
+    {% endif %}
+
+{% endblock %}
