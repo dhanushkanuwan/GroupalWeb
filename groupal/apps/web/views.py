@@ -1,11 +1,12 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, logout
+from django.contrib.auth import authenticate, logout, login
+from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse, reverse_lazy
-from django.views.generic import TemplateView, CreateView, View, UpdateView, DeleteView, ListView
-from forms import ContactGroupForm
+from django.views.generic import TemplateView, CreateView, View, UpdateView, DeleteView, ListView, FormView
+from forms import ContactGroupForm, UserRegistrationForm
 from django.utils.decorators import method_decorator
 from django.shortcuts import get_object_or_404
 from models import ContactGroup
@@ -16,30 +17,30 @@ PAGE_SIZE = 25
 
 # Create your views here.
 
-def index(request):
-    context = {}
-    return render(request, 'web/index.html', context)
-
-def login(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(username=username, password=password)
-        if user is not None:
-            if user.is_active:
-                login(request, user)
-                HttpResponseRedirect(reverse("index"))
-
-    return render(request, 'web/login.html')
-
-def register(request):
-    if (request.method == 'POST'):
-        email = request.POST['email']
-        password = request.POST['password']
-        confirm = request.POST['confirm']
-        #return HttpResponseRedirect("/")
-
-    return render(request, 'web/register.html', None)
+#def index(request):
+#    context = {}
+#    return render(request, 'web/index.html', context)
+#
+#def login(request):
+#    if request.method == 'POST':
+#        username = request.POST['username']
+#        password = request.POST['password']
+#        user = authenticate(username=username, password=password)
+#        if user is not None:
+#            if user.is_active:
+#                login(request, user)
+#                HttpResponseRedirect(reverse("index"))
+#
+#    return render(request, 'web/login.html')
+#
+#def register(request):
+#    if (request.method == 'POST'):
+#        email = request.POST['email']
+#        password = request.POST['password']
+#        confirm = request.POST['confirm']
+#        #return HttpResponseRedirect("/")
+#
+#    return render(request, 'web/register.html', None)
 
 @login_required(login_url="/web/login/")
 def groups(request):
@@ -74,8 +75,21 @@ class Index(TemplateView):
     template_name = 'web/index.html'
 
 
-class Register(TemplateView):
+class Register(FormView):
     template_name = 'web/register.html'
+    form_class = UserRegistrationForm
+    success_url = reverse_lazy('web:groups')
+
+    def form_valid(self, form):
+        password = form.instance.password
+        email = form.instance.email
+        user = User.objects.create_user(email, password, email)
+        form.instance.user = user
+        profile = form.save()
+        login(self.request, user)
+
+        return super(Register, self).form_valid(form)
+
 
 
 class Groups(ListView):

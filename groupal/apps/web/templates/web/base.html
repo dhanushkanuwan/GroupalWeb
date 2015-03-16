@@ -1,23 +1,43 @@
 
-{% load staticfiles %}
+{% load static %}
+{% load bootstrap3 %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <title>{% block title %}Groupal{% endblock %}</title>
     <link href="{% static "web/styles/style.css" %}" rel="stylesheet" media="screen">
+    <link href="{% static "jquery-ui/themes/smoothness/jquery-ui.css" %}" rel="stylesheet" media="screen">
+
+    {% bootstrap_css %}
+
+    <script type="text/javascript" src='{% static 'jquery/dist/jquery.js' %}'></script>
+    <script type="text/javascript" src='{% static 'jquery-ui/jquery-ui.js' %}'></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(".datepicker").datepicker({
+                dateFormat:'yy-mm-dd'
+            });
+
+        });
+    </script>
 </head>
 
 <body>
     <div id="menu">
         {% block menu %}
         <ul>
-            <li><a href="{% url 'web:groups' %}">Groups</a></li>
+            <li><a href="{% url 'web:index' %}">Home</a></li>
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'web:groups' %}">Groups</a></li>
+                <li><a href="{% url 'web:logout' %}">Logout {{ user.username }}</a></li>
+            {% endif %}
         </ul>
         {% endblock %}
     </div>
 
-    <div id="content">
-        {% block content %}{% endblock %}
+    <div id="content" class="container">
+    {% block content %}{% endblock %}
     </div>
 </body>
 </html>

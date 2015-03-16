@@ -6,6 +6,22 @@ import sys
 from PIL import Image
 
 
+def get_user_image_upload_path(self, filename):
+    name = str(uuid.uuid4())
+    ext = os.path.splitext(filename)[1]
+    return 'images/user/%s%s' % (name, ext)
+
+
+def resize_image(path, size):
+    if path is not None and path != '':
+        image = Image.open(path)
+        scale_factor = min(image.size[0] / size[0], image.size[1] / size[1])
+        new_size = (image.size[0] * scale_factor, image.size[1] * scale_factor)
+        new_image = image.resize(new_size)
+        os.remove(path)
+        new_image.save(path)
+
+
 class UserProfile(models.Model):
     user = models.ForeignKey(User, unique=True)
     email = models.EmailField(max_length=100, unique=True)
@@ -29,28 +45,38 @@ class UserProfile(models.Model):
     thumbnail_modified = models.DateField()
     image_modified = models.DateField()
     deleted = models.BooleanField(default=False)
+    thumbnail = models.ImageField(upload_to=get_user_image_upload_path, blank=True, null=True)
+    image = models.ImageField(upload_to=get_user_image_upload_path)
 
     def __unicode__(self):
         return u'%s %s' % (self.first_name, self.last_name)
 
+    def save(self, *args, **kwargs):
+        super(ContactGroup, self).save(*args, **kwargs)
+        image_target_size = (200, 200,)
+        thumbnail_target_size = (24, 24)
+        resize_image(self.image.path, image_target_size)
+        resize_image(self.thumbnail.path, thumbnail_target_size)
 
-class ContactGroup(models.Model):
 
-    def get_thumbnail_upload_path(self, filename):
+def get_group_thumbnail_upload_path(self, filename):
         name = str(uuid.uuid4())
         ext = os.path.splitext(filename)[1]
         return 'images/group/%s%s' % (name, ext)
 
+
+class ContactGroup(models.Model):
+
     name = models.CharField(unique=True, max_length=255)
     title = models.CharField(max_length=255, )
     description = models.CharField(max_length=1000)
-    #created_by = models.ForeignKey(User)
+    created_by = models.ForeignKey(User)
     content_modified = models.DateField()
     thumbnail_modified = models.DateField()
     deleted = models.BooleanField(default=False)
     created = models.DateField(auto_now_add=True)
     modified = models.DateField(auto_now=True)
-    thumbnail = models.ImageField(upload_to=get_thumbnail_upload_path, blank=True, null=True)
+    thumbnail = models.ImageField(upload_to=get_group_thumbnail_upload_path, blank=True, null=True)
 
     def save(self, *args, **kwargs):
         super(ContactGroup, self).save(*args, **kwargs)

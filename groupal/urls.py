@@ -5,8 +5,9 @@ from django.conf.urls.static import static
 
 urlpatterns = patterns(
     '',
-    url(r'^web/', include('groupal.apps.web.urls', namespace="web")),
+    url(r'', include('groupal.apps.web.urls', namespace="web")),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^api/', include('groupal.apps.api.urls', namespace='api')),
 )
 
 if settings.DEBUG:

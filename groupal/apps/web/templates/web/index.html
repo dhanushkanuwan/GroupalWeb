@@ -1,1 +1,16 @@
-<p>This is a test paragraph edited</p>
+{% extends "web/base.html" %}
+
+{% block content %}
+
+    <div>
+        <a href="{% url 'web:login' %}">Login</a>
+        <a href="{% url 'web:register' %}">Register</a>
+    </div>
+
+    Groupal is a simple contact groups management system. Users can register and create their profile and groups or request permission
+    to join groups. Group administrators have permission to manage their groups by accepting join requests assigining moderators.
+
+    There is an android application "Groupal" which users can download and log-in to. Once a user logs-in to tha android application
+    it'll download all groups that the user is part of. Then users can contact the friends through the app either by calling or sending messages
+
+{% endblock %}
